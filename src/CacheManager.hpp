@@ -7,10 +7,12 @@ class CacheManager {
 private:
 	std::unordered_map<std::string, std::string> cache_map;
 	std::list <std::string> cache_list;
+	//the biggest size the cache can be
 	int capacity;
+	//the current size
 	int size = 0;
 
-	void removeFromCache(const int capacity);
+	void removeFromCache();
 
 public:
 	CacheManager(const int capacity);
