@@ -33,6 +33,61 @@ Matrix::~Matrix() {
     matrix_destroy(this->matrix);
 }
 
+std::string** turnStringTo2dArray(const std::string & s, const char row_delim, const char col_delim) {
+	const uint32_t height = std::count(s.begin(), s.end(), row_delim);
+	uint32_t pos = 0;
+	std::string token;
+	while ((pos = s.find(row_delim)) != std::string::npos) {
+		token = s.substr(0, pos);
+		s.erase(0, pos + delimiter.length());
+	}
+}
+
+Matrix::Matrix(const std::string& s) {
+	const uint32_t height = std::count(s.begin(), s.end(), '\n') + 1;
+	const uint32_t width = std::count(s.begin(), s.find('\n'), ',') + 1;
+	ErrorCode error = matrix_create(&matrix, height, width);
+	if (!error_isSuccess(error)) {
+		throw MessageException(error_getErrorMessage(error));
+	}
+	uint32_t rowIndex = 0;
+	uint32_t colIndex = 0;
+	std::string temp;
+	for (auto it = s.begin(); it != s.end(); ++it) {
+		if (*it != ',' && *it != '\n') {
+			temp += *it;
+			continue;
+		}
+		set(rowIndex, colIndex, std::stod(temp));
+		temp.clear();
+		if (*it == ',') {
+			colIndex++;
+		}
+		else if (*it == '\n') {
+			rowIndex++;
+			colIndex = 0;
+		}
+	}
+}
+
+std::string Matrix::toString() const {
+	const uint32_t height = getHeight();
+	const uint32_t width = getWidth();
+	std::string matString;
+	for (uint32_t i = 0; i < height; i++) {
+		for (uint32_t j = 0; j < width; j++) {
+			matString += std::to_string(operator()(i, j));
+			if (j < width - 1) {
+				matString += ",";
+			}
+		}
+		if (i < height - 1) {
+			matString += "\n";
+		}
+	}
+	return matString;
+}
+
 uint32_t Matrix::getHeight() const {
     uint32_t result;
     ErrorCode error = matrix_getHeight(this->matrix, &result);

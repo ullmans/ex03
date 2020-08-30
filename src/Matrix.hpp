@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include<string>
 
 #include "Matrix.h"
 #include "ErrorCode.h"
@@ -28,6 +29,9 @@ public:
     Matrix(Matrix&& other) noexcept = default;
     Matrix& operator=(Matrix&& other) = default;
     
+	Matrix(const std::string& s);
+	std::string toString() const;
+
     /**
      * @brief 
      */
@@ -45,7 +49,6 @@ public:
 
     uint32_t getHeight() const;
     uint32_t getWidth() const;
-
 private:
     PMatrix matrix;
 };

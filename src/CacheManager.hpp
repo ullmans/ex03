@@ -1,5 +1,6 @@
 #pragma once
 
+#include<string>
 #include <unordered_map>
 #include <list> 
 
@@ -13,6 +14,7 @@ private:
 	int size = 0;
 
 	void removeFromCache();
+	void refer(const std::string& path);
 
 public:
 	CacheManager(const int capacity);

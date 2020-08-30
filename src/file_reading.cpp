@@ -32,6 +32,7 @@ void writeFileContent(const std::string& filePath, const std::string& content) {
 
   // The file is in a bad state.
   if (!out) {
+	  
   }
 
   out.write(content.data(), static_cast<std::streamsize>(content.length()));
