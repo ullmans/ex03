@@ -14,8 +14,18 @@ void CacheManager::insert(const std::string& path, const std::string& content) {
 		//Handle Error
 		return;
 	}
+	cache_list.push_front(content);
 	cache_map[path] = content;
 	size++;
+	if(size > capacity){
+		removeFromCache(capacity);
+	}
+}
+
+void CacheManager::removeFromCache(const int capacity){
+	std::string temp = cache_list.back();
+	cache_list.pop_back();
+	cache_map.erase(temp);
 }
 
 std::string CacheManager::get(const std::string& path) {
