@@ -1,4 +1,3 @@
-#include <iostream>
 #include <unordered_map>
 #include "CacheManager.hpp"
 #include "file_reading.hpp"
