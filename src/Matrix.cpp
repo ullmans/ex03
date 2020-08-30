@@ -1,5 +1,5 @@
 #include <stdint.h>
-
+#include <algorithm>
 #include "Matrix.h"
 #include "ErrorCode.h"
 #include "Matrix.hpp"
@@ -39,13 +39,14 @@ std::string** turnStringTo2dArray(const std::string & s, const char row_delim, c
 	std::string token;
 	while ((pos = s.find(row_delim)) != std::string::npos) {
 		token = s.substr(0, pos);
-		s.erase(0, pos + delimiter.length());
+		s.erase(0, pos + delimiter.length());       //there is an error here -what is "delmeter"?
 	}
 }
 
 Matrix::Matrix(const std::string& s) {
 	const uint32_t height = std::count(s.begin(), s.end(), '\n') + 1;
-	const uint32_t width = std::count(s.begin(), s.find('\n'), ',') + 1;
+	//const uint32_t width = s.find('\n');
+    const uint32_t width = std::count(s.begin(), s.find('\n'), ',') + 1;
 	ErrorCode error = matrix_create(&matrix, height, width);
 	if (!error_isSuccess(error)) {
 		throw MessageException(error_getErrorMessage(error));
