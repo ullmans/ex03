@@ -1,10 +1,12 @@
+#include <iostream>
+#include <fstream>
+#include "file_reading.hpp"
 #include<string>
 #include <unordered_map>
 #include <list> 
 #include "CacheManager.hpp"
-#include "file_reading.hpp"
 
-void CacheManager::removeFromCache() {
+void CacheManager::removeFromCacheObject() {
 	std::string temp = cache_list.back();
 	cache_list.pop_back();
 	cache_map.erase(temp);
@@ -24,7 +26,7 @@ void CacheManager::refer(const std::string& path) {
 	cache_list.push_front(path);
 	size++;
 	if (size > capacity) {
-		removeFromCache();
+		removeFromCacheObject();
 	}
 }
 
@@ -58,4 +60,10 @@ std::string CacheManager::get(const std::string& path) {
 	}
 	refer(path);
 	return cache_map[path];
+}
+
+void CacheManager::clear() {
+	cache_map.clear();
+	cache_list.clear();
+	size = 0;
 }

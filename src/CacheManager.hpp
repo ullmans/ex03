@@ -13,11 +13,12 @@ private:
 	//the current size
 	int size = 0;
 
-	void removeFromCache();
+	void removeFromCacheObject();
 	void refer(const std::string& path);
 
 public:
 	CacheManager(const int capacity);
 	void insert(const std::string& path, const std::string& s);
 	std::string get(const std::string& path);
+	void clear();
 };

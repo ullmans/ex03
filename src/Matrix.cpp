@@ -33,20 +33,9 @@ Matrix::~Matrix() {
     matrix_destroy(this->matrix);
 }
 
-std::string** turnStringTo2dArray(const std::string & s, const char row_delim, const char col_delim) {
-	const uint32_t height = std::count(s.begin(), s.end(), row_delim);
-	uint32_t pos = 0;
-	std::string token;
-	while ((pos = s.find(row_delim)) != std::string::npos) {
-		token = s.substr(0, pos);
-		s.erase(0, pos + delimiter.length());       //there is an error here -what is "delmeter"?
-	}
-}
-
 Matrix::Matrix(const std::string& s) {
 	const uint32_t height = std::count(s.begin(), s.end(), '\n') + 1;
-	//const uint32_t width = s.find('\n');
-    const uint32_t width = std::count(s.begin(), s.find('\n'), ',') + 1;
+    const uint32_t width = std::count(s.begin(), s.begin() + s.find_first_of('\n'), ',') + 1;
 	ErrorCode error = matrix_create(&matrix, height, width);
 	if (!error_isSuccess(error)) {
 		throw MessageException(error_getErrorMessage(error));
