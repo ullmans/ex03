@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stdint.h>
+#include <cstdint>
 #include<string>
 
 #include "Matrix.h"
@@ -16,7 +16,7 @@ public:
      * 
      * @param width of the new matrix.
      */
-    Matrix(uint32_t height, uint32_t width);
+    Matrix(std::uint32_t height, std::uint32_t width);
     
     /**
      * @brief copy constractor.
@@ -42,13 +42,13 @@ public:
     Matrix operator-(const Matrix& other) const;
     Matrix operator*(const Matrix& other) const;
     friend Matrix operator*(const double scalar, const Matrix& matrix);
-    double operator()(uint32_t rowInd, uint32_t colInd) const;
-    void set(uint32_t rowInd, uint32_t colInd, double value);
+    double operator()(std::uint32_t rowInd, std::uint32_t colInd) const;
+    void set(std::uint32_t rowInd, std::uint32_t colInd, double value);
 
     ~Matrix();
 
-    uint32_t getHeight() const;
-    uint32_t getWidth() const;
+    std::uint32_t getHeight() const;
+    std::uint32_t getWidth() const;
 private:
     PMatrix matrix;
 };
