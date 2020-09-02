@@ -31,6 +31,8 @@
 *.out
 *.app
 
-./src/build/
+#Cmake auto generated files
+build/
 
-./vscode/
+#VScode auto generated files
+.vscode/
