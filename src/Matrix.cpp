@@ -1,4 +1,4 @@
-#include <stdint.h>
+#include <cstdint>
 #include <algorithm>
 #include "Matrix.h"
 #include "ErrorCode.h"
@@ -6,7 +6,7 @@
 #include "MessageException.hpp"
 
 
-Matrix::Matrix(uint32_t height, uint32_t width) {
+Matrix::Matrix(std::uint32_t height, std::uint32_t width) {
     ErrorCode error = matrix_create(&matrix, height, width);
     if (!error_isSuccess(error)) {
         throw MessageException(error_getErrorMessage(error));
@@ -34,14 +34,14 @@ Matrix::~Matrix() {
 }
 
 Matrix::Matrix(const std::string& s) {
-	const uint32_t height = std::count(s.begin(), s.end(), '\n') + 1;
-    const uint32_t width = std::count(s.begin(), s.begin() + s.find_first_of('\n'), ',') + 1;
+	const std::uint32_t height = std::count(s.begin(), s.end(), '\n') + 1;
+    const std::uint32_t width = std::count(s.begin(), s.begin() + s.find_first_of('\n'), ',') + 1;
 	ErrorCode error = matrix_create(&matrix, height, width);
 	if (!error_isSuccess(error)) {
 		throw MessageException(error_getErrorMessage(error));
 	}
-	uint32_t rowIndex = 0;
-	uint32_t colIndex = 0;
+	std::uint32_t rowIndex = 0;
+	std::uint32_t colIndex = 0;
 	std::string temp;
 	for (auto it = s.begin(); it != s.end(); ++it) {
 		if (*it != ',' && *it != '\n') {
@@ -61,11 +61,11 @@ Matrix::Matrix(const std::string& s) {
 }
 
 std::string Matrix::toString() const {
-	const uint32_t height = getHeight();
-	const uint32_t width = getWidth();
+	const std::uint32_t height = getHeight();
+	const std::uint32_t width = getWidth();
 	std::string matString;
-	for (uint32_t i = 0; i < height; i++) {
-		for (uint32_t j = 0; j < width; j++) {
+	for (std::uint32_t i = 0; i < height; i++) {
+		for (std::uint32_t j = 0; j < width; j++) {
 			matString += std::to_string(operator()(i, j));
 			if (j < width - 1) {
 				matString += ",";
@@ -78,8 +78,8 @@ std::string Matrix::toString() const {
 	return matString;
 }
 
-uint32_t Matrix::getHeight() const {
-    uint32_t result;
+std::uint32_t Matrix::getHeight() const {
+    std::uint32_t result;
     ErrorCode error = matrix_getHeight(this->matrix, &result);
     if (!error_isSuccess(error)) {
         throw MessageException(error_getErrorMessage(error));
@@ -87,8 +87,8 @@ uint32_t Matrix::getHeight() const {
     return result;
 }
 
-uint32_t Matrix::getWidth() const {
-    uint32_t result;
+std::uint32_t Matrix::getWidth() const {
+    std::uint32_t result;
     ErrorCode error = matrix_getWidth(this->matrix, &result);
     if (!error_isSuccess(error)) {
         throw MessageException(error_getErrorMessage(error));
@@ -158,7 +158,7 @@ Matrix Matrix::operator*(const Matrix& other) const {
     return res;
 }
 
-double Matrix::operator()(uint32_t rowInd, uint32_t colInd) const {
+double Matrix::operator()(std::uint32_t rowInd, std::uint32_t colInd) const {
     double result;
     ErrorCode errorAccessingMatrix = matrix_getValue(this->matrix, rowInd, colInd, &result);
     if (!error_isSuccess(errorAccessingMatrix)) {
@@ -167,7 +167,7 @@ double Matrix::operator()(uint32_t rowInd, uint32_t colInd) const {
     return result;
 }
 
-void Matrix::set(uint32_t rowInd, uint32_t colInd, double value) {
+void Matrix::set(std::uint32_t rowInd, std::uint32_t colInd, double value) {
     ErrorCode errorSettingValue = matrix_setValue(this->matrix, rowInd, colInd, value);
     if (!error_isSuccess(errorSettingValue)) {
         throw MessageException(error_getErrorMessage(errorSettingValue));
