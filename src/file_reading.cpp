@@ -18,6 +18,14 @@ std::string readFileContent(const std::string& filePath) {
   return os.str();
 }
 
+std::string readTextFileContent(const std::string& filePath) {
+  // Opens input-only file (ifstream).
+  std::ifstream in(filePath, std::ios::in);
+  std::ostringstream os;
+  os << in.rdbuf();
+  return os.str();
+}
+
 /**
  * @brief Writes content to a file. If the file exists, removes
  *  previos content. Otherwise, creates a new file.
