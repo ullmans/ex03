@@ -11,30 +11,6 @@
 #include "file_reading.hpp"
 #include "MessageException.hpp"
 
-int main(int argc, char* argv[]){
-    CacheManager cache = CacheManager(100);   //what is the size?
-
-    //for matrix
-    if(std::string(argv[1]).compare("matrix") != 0){
-        matrixArguments(cache, argv);
-
-    //for image (BMP)
-    } else if(std::string(argv[1]).compare("image") != 0){
-        imageArguments(cache, argv);
-    
-    //for hash
-    } else if(std::string(argv[1]).compare("hash") != 0){
-        hashArguments(cache, argv);
-
-    //for cache
-    } else if(std::string(argv[1]).compare("cache") != 0){
-        cacheArguments(cache, argv);
-
-    //not a valid command
-    } else {
-        throw MessageException("the argunments are not a valid command");
-    }
-}
 
 void matrixArguments(CacheManager cache, char* argv[]){
     //check if we have the action in the cache
@@ -79,13 +55,13 @@ void imageArguments(CacheManager cache, char* argv[]){
     }
 }
 
-void hashArguments(CacheManager cache, char* argv[]){
-    if(std::string(argv[2]).compare("algorithem") != 0){
-    //calculate hash
-    } else {
-        throw MessageException("the argunments are not a valid command");
-    }
-}
+// void hashArguments(CacheManager cache, char* argv[]){
+//     if(std::string(argv[2]).compare("algorithem") != 0){
+//     //calculate hash
+//     } else {
+//         throw MessageException("the argunments are not a valid command");
+//     }
+// }
 
 void cacheArguments(CacheManager cache, char* argv[]){
     if(std::string(argv[2]).compare("clear") != 0){
@@ -95,6 +71,33 @@ void cacheArguments(CacheManager cache, char* argv[]){
         if(cache.search(key)){
             printf("result found in cache");
         }
+    } else {
+        throw MessageException("the argunments are not a valid command");
+    }
+}
+
+int main(int argc, char* argv[]){
+    argc += 1;
+
+    CacheManager cache = CacheManager(100);   //what is the size?
+
+    //for matrix
+    if(std::string(argv[1]).compare("matrix") != 0){
+        matrixArguments(cache, argv);
+
+    //for image (BMP)
+    } else if(std::string(argv[1]).compare("image") != 0){
+        imageArguments(cache, argv);
+    
+    //for hash
+    } else if(std::string(argv[1]).compare("hash") != 0){
+        //hashArguments(cache, argv);
+
+    //for cache
+    } else if(std::string(argv[1]).compare("cache") != 0){
+        cacheArguments(cache, argv);
+
+    //not a valid command
     } else {
         throw MessageException("the argunments are not a valid command");
     }

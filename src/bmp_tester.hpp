@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "CacheManager.hpp"
 
 namespace testing {
 namespace bmp {

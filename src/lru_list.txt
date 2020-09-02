@@ -1,2 +1,0 @@
-hi3|hi3.txt
-hi2|hi2.txt

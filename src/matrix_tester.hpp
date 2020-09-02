@@ -2,11 +2,13 @@
 
 #include <string>
 
+#include "CacheManager.hpp"
+
 namespace testing {
 namespace matrix {
 
-void testing::matrix::add(CacheManager cache, const std::string& path, char* argv[]);
-void testing::matrix::multiply(CacheManager cache, const std::string& path, char* argv[]);
+void add(CacheManager cache, const std::string& path, char* argv[]);
+void multiply(CacheManager cache, const std::string& path, char* argv[]);
 
 }
 }

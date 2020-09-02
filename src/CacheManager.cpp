@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdint>
 
 #include "file_reading.hpp"
 #include <string>
@@ -32,13 +33,13 @@ void CacheManager::moveToFrontOfLRUList(const std::string& key) {
 	}
 }
 
-CacheManager::CacheManager(const int capacity) {
-	this->capacity = capacity;
+CacheManager::CacheManager(const std::uint32_t capa) {
+	this->capacity = capa;
 	std::string lru_list_string;
 	try {
 		lru_list_string = readFileContent(PATH_TO_LRU_LIST);
 	}
-	catch (MessageException me) {
+	catch (MessageException& me) {
 		return;
 	}
 	std::string keyTemp;
@@ -73,7 +74,7 @@ CacheManager::~CacheManager() {
 	try {
 		writeFileContent(PATH_TO_LRU_LIST, lru_list_string);
 	}
-	catch (std::exception e) {
+	catch (std::exception& e) {
 		return;
 	}
 }
@@ -88,7 +89,7 @@ void CacheManager::insert(const std::string& key, const std::string& path, const
 	try {
 		writeFileContent(path, content);
 	}
-	catch (MessageException me) {
+	catch (MessageException& me) {
 		throw me;
 	}
 	if (search(key)) {
@@ -114,7 +115,7 @@ std::string CacheManager::get(const std::string& key) {
 	try {
 		content = readFileContent(cache_map[key]);
 	}
-	catch (MessageException me) {
+	catch (MessageException& me) {
 		throw me;
 	}
 	moveToFrontOfLRUList(key);

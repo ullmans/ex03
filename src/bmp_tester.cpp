@@ -8,13 +8,13 @@
 void testing::bmp::rotate_image(CacheManager cache, const std::string& path, char* argv[]) {
     BMP bmpFile(readFileContent(cache.get(path)));
     bmpFile.rotate();
-    writeFileContent(std::string(argv[5]), bmpFile.toString());
-    cache.insert(path, std::string(argv[5]));
+    //writeFileContent(std::string(argv[5]), bmpFile.toString());
+    cache.insert(path, std::string(argv[5]), bmpFile.toString());
 }
 
 void testing::bmp::convert_to_grayscale(CacheManager cache, const std::string& path, char* argv[]) {
     BMP bmpFile(readFileContent(cache.get(path)));
     bmpFile.toGrayscale();
-    writeFileContent(std::string(argv[5]), bmpFile.toString());
-    cache.insert(path, std::string(argv[5]));
+    //writeFileContent(std::string(argv[5]), bmpFile.toString());
+    cache.insert(path, std::string(argv[5]), bmpFile.toString());
 }

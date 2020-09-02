@@ -18,7 +18,7 @@ private:
 	void removeLRUElementFromCache();
 	void moveToFrontOfLRUList(const std::string& key);
 public:
-	CacheManager(const int capacity);
+	CacheManager(const std::uint32_t capa);
 	~CacheManager();
 	void insert(const std::string& key, const std::string& path, const std::string& content);
 	std::string get(const std::string& key);

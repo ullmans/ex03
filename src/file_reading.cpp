@@ -29,14 +29,8 @@ std::string readFileContent(const std::string& filePath) {
       throw MessageException("Reading from file failed");
   }
 
-  return os.str();
-}
+  in.close();
 
-std::string readTextFileContent(const std::string& filePath) {
-  // Opens input-only file (ifstream).
-  std::ifstream in(filePath, std::ios::in);
-  std::ostringstream os;
-  os << in.rdbuf();
   return os.str();
 }
 
@@ -61,4 +55,6 @@ void writeFileContent(const std::string& filePath, const std::string& content) {
   if (!out) {
       throw MessageException("Writing to file failed");
   }
+
+  out.close();
 }
