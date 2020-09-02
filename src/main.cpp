@@ -38,38 +38,41 @@ int main(int argc, char* argv[]){
 
 void matrixArguments(CacheManager cache, char* argv[]){
     //check if we have the action in the cache
-    std:: string path = "MATRIX_" + std::string(argv[2]) + '_' + std::string(argv[3]) + '_' + std::string(argv[4]);
+    std::string key = "MATRIX_" + std::string(argv[2]) + '_' + std::string(argv[3]) + '_' + std::string(argv[4]);
     //1 -> if we have it
-    if(cache.search(path)){
-        cache.insert(path, cache.get(path));
+    if(cache.search(key)){
+        cache.insert(key, std::string(argv[5]), cache.get(key));
     //0 -> if we do not have it
     } else {
         if(std::string(argv[2]).compare("add") != 0){
             //add the matrices
-            testing::matrix::add(cache,path, argv);
+            testing::matrix::add(cache,key, argv);
         } else if(std::string(argv[2]).compare("multiply") != 0){
             //multiply the matrices
-            testing::matrix::multiply(cache,path, argv);
+            testing::matrix::multiply(cache,key, argv);
         } else {
             throw MessageException("the argunments are not a valid command");
         }
     }
 }
 
+
+//const std::string& key, const std::string& path, const std::string& content
+
 void imageArguments(CacheManager cache, char* argv[]){
     //check if we have the action in the cache
-    std:: string path = "IMAGE_" + std::string(argv[3]) + '_' + std::string(argv[2]) + '_' + std::string(argv[4]);
+    std:: string key = "IMAGE_" + std::string(argv[3]) + '_' + std::string(argv[2]) + '_' + std::string(argv[4]);
     //1 -> if we have it
-    if(cache.search(path)){
-        cache.insert(path, cache.get(path));
+    if(cache.search(key)){
+        cache.insert(key, std::string(argv[5]), cache.get(key));
     //0 -> if we dont have it
     } else {
         if(std::string(argv[2]).compare("rotate") != 0){
             //rotate the image
-            testing::bmp::rotate_image(cache,path, argv);
+            testing::bmp::rotate_image(cache,key, argv);
         } else if(std::string(argv[2]).compare("convert") != 0){
             //convert the image
-            testing::bmp::convert_to_grayscale(cache,path, argv);
+            testing::bmp::convert_to_grayscale(cache,key, argv);
         } else {
             throw MessageException("the argunments are not a valid command");
         }
@@ -88,8 +91,8 @@ void cacheArguments(CacheManager cache, char* argv[]){
     if(std::string(argv[2]).compare("clear") != 0){
         cache.clear();
     } else if(std::string(argv[2]).compare("search") != 0){
-        std:: string path = "CACHE_" + std::string(argv[3]) + '_' + std::string(argv[2]) + '_' + std::string(argv[4]);
-        if(cache.searh(path)){
+        std:: string key = "CACHE_" + std::string(argv[3]) + '_' + std::string(argv[2]) + '_' + std::string(argv[4]);
+        if(cache.search(key)){
             printf("result found in cache");
         }
     } else {
