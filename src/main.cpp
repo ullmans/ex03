@@ -89,7 +89,7 @@ void cacheArguments(CacheManager* cache, char* argv[]){
             key = "image_" + std::string(argv[4]) + '_' + std::string(argv[5]);
         }
         else if (std::string(argv[3]).compare("crc32") == 0) {
-            key = "crc32_" + std::string(argv[4]);
+            key = "hash_crc32_" + std::string(argv[4]);
         }
 
         if(cache->search(key)){

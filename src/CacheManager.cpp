@@ -42,19 +42,19 @@ std::uint32_t CacheManager::getCapacity() {
 }
 
 void CacheManager::loadCacheList() {
-	//Holds the content of cache_list.txt
+	//Holds the content of ./bin/cache_list.txt
 	std::string cache_list_content;
 	try {
-		cache_list_content = readFileContent("cache_list.txt");
+		cache_list_content = readFileContent("./bin/cache_list.txt");
 	}
 	catch (MessageException& me) {
-		return;
+		throw MessageException("Reading from cahce_list.txt failed because: " + std::string(me.what()));
 	}
 
 	//Holds one of the keys that are read from cache_list_content
 	std::string keyTemp;
 
-	//Holds one the path associated with the key in keyTemp
+	//Holds one the filename associated with the key in keyTemp
 	std::string pathTemp;
 
 	//Holds true if the function is currently reading into keyTemp,
@@ -66,7 +66,7 @@ void CacheManager::loadCacheList() {
 		//The character '|' is the seperator between the keys and the
 		//paths in each line of cache_list_content
 		if (*it == '|') {
-			//The line starts with a key, so now a path will be read
+			//The line starts with a key, so now a filename will be read
 			isReadingKey = false;
 		}
 		//The character '\n' is the seperator between the files (the keys and paths) in cache_list_content,
@@ -94,35 +94,32 @@ void CacheManager::loadCacheList() {
 }
 
 void CacheManager::saveCacheList() {
-	//Holds the content that'll be written into cache_list.txt
+	//Holds the content that'll be written into ./bin/cache_list.txt
 	std::string cache_list_content;
 
 	//Each key in lru_list is put in cache_list_content in order.
 	for (const std::string& s : lru_list) {
-		//Each line in cache_list_content looks like "<key>|<path>"
+		//Each line in cache_list_content looks like "<key>|<filename>"
 		cache_list_content += s + '|' + cache_map[s] + "\n";
 	}
 
-	//Writing cache_list_content into cache_list.txt
+	//Writing cache_list_content into ./bin/cache_list.txt
 	try {
-		writeFileContent("cache_list.txt", cache_list_content);
+		writeFileContent("./bin/cache_list.txt", cache_list_content);
 	}
 	catch (MessageException& me) {
 		throw MessageException("Saving cahce_list.txt failed because: " + std::string(me.what()));
 	}
 }
 
-void CacheManager::insert(const std::string& key, const std::string& path, const std::string& content) {
-	if (path == "cache_list.txt") {
-		throw MessageException("cache_list.txt can't be added to cache");
-	}
-	if (std::count(path.begin(), path.end(), '\n') != 0 || std::count(path.begin(), path.end(), '|') != 0) {
+void CacheManager::insert(const std::string& key, const std::string& filename, const std::string& content) {
+	if (std::count(filename.begin(), filename.end(), '\n') != 0 || std::count(filename.begin(), filename.end(), '|') != 0) {
 		throw MessageException("Characters '\\n' and '|' are not allowed in the keys");
 	}
 
-	//The content is written into the file in the path
+	//The content is written into the file
 	try {
-		writeFileContent(path, content);
+		writeFileContent("./bin/cache/" + filename, content);
 	}
 	catch (MessageException& me) {
 		throw MessageException("Writing the inserted file failed because: " + std::string(me.what()));
@@ -141,7 +138,7 @@ void CacheManager::insert(const std::string& key, const std::string& path, const
 		size++;
 	}
 
-	cache_map[key] = path;
+	cache_map[key] = filename;
 }
 
 std::string CacheManager::get(const std::string& key) {
