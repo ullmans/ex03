@@ -35,7 +35,7 @@ void CacheManager::moveToFrontOfLRUList(const std::string& key) {
 	}
 }
 
-CacheManager::CacheManager(const int capacity) : capacity(capacity) { }
+CacheManager::CacheManager(const int capa) : capacity(capa) { }
 
 std::uint32_t CacheManager::getCapacity() {
 	return capacity;
@@ -47,8 +47,8 @@ void CacheManager::loadCacheList() {
 	try {
 		cache_list_content = readFileContent("cache_list.txt");
 	}
-	catch (MessageException me) {
-		throw MessageException("Reading from cahce_list.txt failed because: " + std::string(me.what()));
+	catch (MessageException& me) {
+		return;
 	}
 
 	//Holds one of the keys that are read from cache_list_content
@@ -107,7 +107,7 @@ void CacheManager::saveCacheList() {
 	try {
 		writeFileContent("cache_list.txt", cache_list_content);
 	}
-	catch (MessageException me) {
+	catch (MessageException& me) {
 		throw MessageException("Saving cahce_list.txt failed because: " + std::string(me.what()));
 	}
 }
@@ -124,7 +124,7 @@ void CacheManager::insert(const std::string& key, const std::string& path, const
 	try {
 		writeFileContent(path, content);
 	}
-	catch (MessageException me) {
+	catch (MessageException& me) {
 		throw MessageException("Writing the inserted file failed because: " + std::string(me.what()));
 	}
 
@@ -152,7 +152,7 @@ std::string CacheManager::get(const std::string& key) {
 	try {
 		content = readFileContent(cache_map[key]);
 	}
-	catch (MessageException me) {
+	catch (MessageException& me) {
 		throw MessageException("Reading from the file associated with the key failed because: " + std::string(me.what()));
 	}
 	moveToFrontOfLRUList(key);

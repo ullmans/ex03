@@ -1,0 +1,42 @@
+[
+{
+  "directory": "/home/ullmans/ex03/ex03/src/build",
+  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -Wnon-virtual-dtor -Wshadow -std=gnu++17 -o CMakeFiles/ex3.out.dir/BMP.cpp.o -c /home/ullmans/ex03/ex03/src/BMP.cpp",
+  "file": "/home/ullmans/ex03/ex03/src/BMP.cpp"
+},
+{
+  "directory": "/home/ullmans/ex03/ex03/src/build",
+  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -Wnon-virtual-dtor -Wshadow -std=gnu++17 -o CMakeFiles/ex3.out.dir/bmp_tester.cpp.o -c /home/ullmans/ex03/ex03/src/bmp_tester.cpp",
+  "file": "/home/ullmans/ex03/ex03/src/bmp_tester.cpp"
+},
+{
+  "directory": "/home/ullmans/ex03/ex03/src/build",
+  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -Wnon-virtual-dtor -Wshadow -std=gnu++17 -o CMakeFiles/ex3.out.dir/CacheManager.cpp.o -c /home/ullmans/ex03/ex03/src/CacheManager.cpp",
+  "file": "/home/ullmans/ex03/ex03/src/CacheManager.cpp"
+},
+{
+  "directory": "/home/ullmans/ex03/ex03/src/build",
+  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -Wnon-virtual-dtor -Wshadow -std=gnu++17 -o CMakeFiles/ex3.out.dir/file_reading.cpp.o -c /home/ullmans/ex03/ex03/src/file_reading.cpp",
+  "file": "/home/ullmans/ex03/ex03/src/file_reading.cpp"
+},
+{
+  "directory": "/home/ullmans/ex03/ex03/src/build",
+  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -Wnon-virtual-dtor -Wshadow -std=gnu++17 -o CMakeFiles/ex3.out.dir/main.cpp.o -c /home/ullmans/ex03/ex03/src/main.cpp",
+  "file": "/home/ullmans/ex03/ex03/src/main.cpp"
+},
+{
+  "directory": "/home/ullmans/ex03/ex03/src/build",
+  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -Wnon-virtual-dtor -Wshadow -std=gnu++17 -o CMakeFiles/ex3.out.dir/IMatrix.cpp.o -c /home/ullmans/ex03/ex03/src/IMatrix.cpp",
+  "file": "/home/ullmans/ex03/ex03/src/IMatrix.cpp"
+},
+{
+  "directory": "/home/ullmans/ex03/ex03/src/build",
+  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -Wnon-virtual-dtor -Wshadow -std=gnu++17 -o CMakeFiles/ex3.out.dir/matrix_tester.cpp.o -c /home/ullmans/ex03/ex03/src/matrix_tester.cpp",
+  "file": "/home/ullmans/ex03/ex03/src/matrix_tester.cpp"
+},
+{
+  "directory": "/home/ullmans/ex03/ex03/src/build",
+  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -Wnon-virtual-dtor -Wshadow -std=gnu++17 -o CMakeFiles/ex3.out.dir/MessageException.cpp.o -c /home/ullmans/ex03/ex03/src/MessageException.cpp",
+  "file": "/home/ullmans/ex03/ex03/src/MessageException.cpp"
+}
+]

@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ullmans/ex03/ex03/src/CacheManager.cpp
+file_reading.hpp
+/home/ullmans/ex03/ex03/src/file_reading.hpp
+string
+-
+algorithm
+-
+unordered_map
+-
+list
+-
+MessageException.hpp
+/home/ullmans/ex03/ex03/src/MessageException.hpp
+CacheManager.hpp
+/home/ullmans/ex03/ex03/src/CacheManager.hpp
+
+/home/ullmans/ex03/ex03/src/CacheManager.hpp
+string
+-
+unordered_map
+-
+list
+-
+cstdint
+-
+
+/home/ullmans/ex03/ex03/src/MessageException.hpp
+exception
+-
+string
+-
+
+/home/ullmans/ex03/ex03/src/file_reading.hpp
+string
+-
+

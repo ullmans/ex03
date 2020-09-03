@@ -30,7 +30,7 @@ add_compile_options(-Wall -Wextra -pedantic -Werror -Wnon-virtual-dtor -Wshadow)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 # add the .cpp files of the project
-add_executable(ex3.out BMP.cpp bmp_tester.cpp CacheManager.cpp file_reading.cpp main.cpp Matrix.cpp matrix_tester.cpp MessageException.cpp)
+add_executable(ex3.out BMP.cpp bmp_tester.cpp CacheManager.cpp file_reading.cpp main.cpp IMatrix.cpp matrix_tester.cpp MessageException.cpp)
 
 # add the library
 target_link_libraries(ex3.out matrix)
