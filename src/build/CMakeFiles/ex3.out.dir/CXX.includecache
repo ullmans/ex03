@@ -60,6 +60,12 @@ string
 CacheManager.hpp
 /home/ullmans/ex03/ex03/src/CacheManager.hpp
 
+/home/ullmans/ex03/ex03/src/crc32.c
+sys/cdefs.h
+-
+sys/param.h
+-
+
 /home/ullmans/ex03/ex03/src/file_reading.hpp
 string
 -
@@ -93,6 +99,8 @@ file_reading.hpp
 /home/ullmans/ex03/ex03/src/file_reading.hpp
 MessageException.hpp
 /home/ullmans/ex03/ex03/src/MessageException.hpp
+crc32.c
+/home/ullmans/ex03/ex03/src/crc32.c
 
 /home/ullmans/ex03/ex03/src/matrix_tester.hpp
 string

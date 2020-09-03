@@ -13,7 +13,7 @@
 #include "BMP.hpp"
 #include "file_reading.hpp"
 #include "MessageException.hpp"
-//#include "crc"
+#include "crc32.c"
 
 void matrixArguments(CacheManager* cache, char* argv[]){
     //check if we have the action in the cache
@@ -76,8 +76,6 @@ void hashArguments(CacheManager* cache, char* argv[]){
         throw MessageException("the argunments are not a valid command");
     }
 }
-
-uint32_t
 
 void cacheArguments(CacheManager* cache, char* argv[]){
     if(std::string(argv[2]).compare("clear") == 0){
