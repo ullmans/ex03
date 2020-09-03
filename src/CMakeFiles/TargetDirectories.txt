@@ -1,0 +1,5 @@
+/home/ullmans/ex03/ex03/src/CMakeFiles/edit_cache.dir
+/home/ullmans/ex03/ex03/src/CMakeFiles/package_source.dir
+/home/ullmans/ex03/ex03/src/CMakeFiles/rebuild_cache.dir
+/home/ullmans/ex03/ex03/src/CMakeFiles/package.dir
+/home/ullmans/ex03/ex03/src/CMakeFiles/ex3.out.dir
