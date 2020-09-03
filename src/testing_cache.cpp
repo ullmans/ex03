@@ -3,7 +3,7 @@
 #include <exception>
 #include "CacheManager.hpp"
 
-int main(int argc, char** argv) {
+void cahceTest(int argc, char** argv) {
     try {
         CacheManager cm(2);
         cm.insert("hi1", "hi1.txt", "opposite of bye1");

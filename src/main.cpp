@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "Matrix.hpp"
+#include "IMatrix.hpp"
 #include "CacheManager.hpp"
 #include "bmp_tester.hpp"
 #include "matrix_tester.hpp"

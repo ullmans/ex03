@@ -3,12 +3,12 @@
 #include <stdint.h>
 #include <memory>
 #include <string>
-#include "Matrix.hpp"
+#include "IMatrix.hpp"
 
 
 class BMP {
-    std::unique_ptr<Matrix> bitmap;
-    std::unique_ptr<Matrix> colorPalette;
+    std::unique_ptr<IMatrix> bitmap;
+    std::unique_ptr<IMatrix> colorPalette;
     std::string reservedAtStart;
     uint32_t bitsPerPixel;
     uint32_t horizontalResolution;

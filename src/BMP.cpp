@@ -7,7 +7,7 @@
 #include "BMP.hpp"
 
 //Added right now
-#include "Matrix.hpp"
+#include "IMatrix.hpp"
 
 
 // returns the part of 'str' starting at 'start' and with length of 'length'.
@@ -81,7 +81,7 @@ BMP::BMP(const std::string& bmpFile) {
     placeParsing += 4;
     uint32_t bitmapHeight = byteStringToInt(read(placeParsing, 4, bmpFile));
 
-    bitmap = std::make_unique<Matrix>(bitmapHeight, bitmapWidth);
+    bitmap = std::make_unique<IMatrix>(bitmapHeight, bitmapWidth);
 
     placeParsing = 26;
 
@@ -112,7 +112,7 @@ BMP::BMP(const std::string& bmpFile) {
             colorPaletteSize = 1 << bitsPerPixel;
         }
         
-        colorPalette = std::make_unique<Matrix>(1, colorPaletteSize);
+        colorPalette = std::make_unique<IMatrix>(1, colorPaletteSize);
         for (uint32_t i = 0; i < colorPaletteSize; ++i) {
             uint32_t rgbValue = byteStringToInt(read(placeParsing, 4, bmpFile));
             placeParsing += 4;
@@ -205,10 +205,10 @@ std::string BMP::toString() {
 
 
 void BMP::rotate() {
-    Matrix bitmapCopy = *(this->bitmap);
+    IMatrix bitmapCopy = *(this->bitmap);
     uint32_t newHeight = (this->bitmap)->getWidth();
     uint32_t newWidth = (this->bitmap)->getHeight();
-    this->bitmap = std::make_unique<Matrix>(newHeight, newWidth);
+    this->bitmap = std::make_unique<IMatrix>(newHeight, newWidth);
 
     for (uint32_t i = 0; i < newHeight; ++i) {
         for (uint32_t j = 0; j < newWidth; ++j) {
