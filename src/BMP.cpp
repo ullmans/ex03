@@ -6,6 +6,8 @@
 #include "MessageException.hpp"
 #include "BMP.hpp"
 
+//Added right now
+#include "IMatrix.hpp"
 
 
 // returns the part of 'str' starting at 'start' and with length of 'length'.
@@ -79,7 +81,7 @@ BMP::BMP(const std::string& bmpFile) {
     placeParsing += 4;
     uint32_t bitmapHeight = byteStringToInt(read(placeParsing, 4, bmpFile));
 
-    bitmap = std::make_unique<Matrix>(bitmapHeight, bitmapWidth);
+    bitmap = std::make_unique<IMatrix>(bitmapHeight, bitmapWidth);
 
     placeParsing = 26;
 
@@ -110,7 +112,7 @@ BMP::BMP(const std::string& bmpFile) {
             colorPaletteSize = 1 << bitsPerPixel;
         }
         
-        colorPalette = std::make_unique<Matrix>(1, colorPaletteSize);
+        colorPalette = std::make_unique<IMatrix>(1, colorPaletteSize);
         for (uint32_t i = 0; i < colorPaletteSize; ++i) {
             uint32_t rgbValue = byteStringToInt(read(placeParsing, 4, bmpFile));
             placeParsing += 4;
@@ -192,7 +194,7 @@ std::string BMP::toString() {
         str.append(paddingString);
     }
 
-    uint32_t size = 2 + 4 + str.size();
+    uint32_t size = 2 + 4 + (uint32_t) str.size();
     std::string res;
     res.push_back('B');
     res.push_back('M');
@@ -203,10 +205,10 @@ std::string BMP::toString() {
 
 
 void BMP::rotate() {
-    Matrix bitmapCopy = *(this->bitmap);
+    IMatrix bitmapCopy = *(this->bitmap);
     uint32_t newHeight = (this->bitmap)->getWidth();
     uint32_t newWidth = (this->bitmap)->getHeight();
-    this->bitmap = std::make_unique<Matrix>(newHeight, newWidth);
+    this->bitmap = std::make_unique<IMatrix>(newHeight, newWidth);
 
     for (uint32_t i = 0; i < newHeight; ++i) {
         for (uint32_t j = 0; j < newWidth; ++j) {
@@ -241,7 +243,7 @@ uint32_t rgbToGrayscale(uint32_t rgb, bool isFourByte) {
     rgb >>= 8;
     r = rgb & 0xFF;
 
-    uint8_t value = round(0.2126*r + 0.7152*g + 0.0722*b);
+    uint8_t value = (uint8_t) round(0.2126*r + 0.7152*g + 0.0722*b);
     uint32_t res = value << 16 | value << 8 | value;
     if (isFourByte) {
         res <<= 8;

@@ -5,16 +5,14 @@
 #include "bmp_tester.hpp"
 #include "CacheManager.hpp"
 
-void testing::bmp::rotate_image(CacheManager cache, const std::string& path, char* argv[]) {
-    BMP bmpFile(readFileContent(cache.get(path)));
+void testing::bmp::rotate_image(CacheManager* cache, const std::string& key, char* argv[]) {
+    BMP bmpFile = BMP(readFileContent(std::string(argv[3])));
     bmpFile.rotate();
-    writeFileContent(std::string(argv[5]), bmpFile.toString());
-    cache.insert(path, std::string(argv[5]));
+    cache->insert(key, std::string(argv[4]), bmpFile.toString());
 }
 
-void testing::bmp::convert_to_grayscale(CacheManager cache, const std::string& path, char* argv[]) {
-    BMP bmpFile(readFileContent(cache.get(path)));
+void testing::bmp::convert_to_grayscale(CacheManager* cache, const std::string& key, char* argv[]) {
+    BMP bmpFile = BMP(readFileContent(std::string(argv[3])));
     bmpFile.toGrayscale();
-    writeFileContent(std::string(argv[5]), bmpFile.toString());
-    cache.insert(path, std::string(argv[5]));
+    cache->insert(key, std::string(argv[4]), bmpFile.toString());
 }

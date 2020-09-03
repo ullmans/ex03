@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "CacheManager.hpp"
 
 namespace testing {
 namespace bmp {
@@ -15,7 +16,7 @@ namespace bmp {
  *  path already exists, the file previously existing in the path should be
  *  overriden.
  */
-void rotate_image(CacheManager cache, const std::string& path, char* argv[]);
+void rotate_image(CacheManager* cache, const std::string& key, char* argv[]);
 
 /**
  * @brief Receives a path to a BMP image on the disk and converts it to grayscale,
@@ -24,6 +25,6 @@ void rotate_image(CacheManager cache, const std::string& path, char* argv[]);
  * @param imagePath Path of a BMP image that should be rotated.
  * @param outputPath Path of the resulting BMP image.
  */
-void convert_to_grayscale(CacheManager cache, const std::string& path, char* argv[]);
+void convert_to_grayscale(CacheManager* cache, const std::string& key, char* argv[]);
 }
 }

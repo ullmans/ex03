@@ -1,26 +1,26 @@
 #include <cstdint>
 #include <algorithm>
-#include "Matrix.h"
 #include "ErrorCode.h"
-#include "Matrix.hpp"
+#include "Matrix.h"
+#include "IMatrix.hpp"
 #include "MessageException.hpp"
 
 
-Matrix::Matrix(std::uint32_t height, std::uint32_t width) {
+IMatrix::IMatrix(std::uint32_t height, std::uint32_t width) {
     ErrorCode error = matrix_create(&matrix, height, width);
     if (!error_isSuccess(error)) {
         throw MessageException(error_getErrorMessage(error));
     }
 }
 
-Matrix::Matrix(const Matrix& other) {
-    ErrorCode error = matrix_copy(&this->matrix, other.matrix);
+IMatrix::IMatrix(const IMatrix& other) {
+    ErrorCode error = matrix_copy(&(this->matrix), other.matrix);
     if (!error_isSuccess(error)) {
         throw MessageException(error_getErrorMessage(error));
     }
 }
 
-Matrix& Matrix::operator=(const Matrix& other) {
+IMatrix& IMatrix::operator=(const IMatrix& other) {
     matrix_destroy(this->matrix); // release the stored matrix.
     ErrorCode error = matrix_copy(&this->matrix, other.matrix);
     if (!error_isSuccess(error)) {
@@ -29,13 +29,13 @@ Matrix& Matrix::operator=(const Matrix& other) {
     return *this;
 }
     
-Matrix::~Matrix() {
+IMatrix::~IMatrix() {
     matrix_destroy(this->matrix);
 }
 
-Matrix::Matrix(const std::string& s) {
-	const std::uint32_t height = std::count(s.begin(), s.end(), '\n') + 1;
-    const std::uint32_t width = std::count(s.begin(), s.begin() + s.find_first_of('\n'), ',') + 1;
+IMatrix::IMatrix(const std::string& s) {
+	const std::uint32_t height = (uint32_t) std::count(s.begin(), s.end(), '\n') + 1;
+    const std::uint32_t width = (uint32_t) std::count(s.begin(), s.begin() + s.find_first_of('\n'), ',') + 1;
 	ErrorCode error = matrix_create(&matrix, height, width);
 	if (!error_isSuccess(error)) {
 		throw MessageException(error_getErrorMessage(error));
@@ -60,7 +60,7 @@ Matrix::Matrix(const std::string& s) {
 	}
 }
 
-std::string Matrix::toString() const {
+std::string IMatrix::toString() const {
 	const std::uint32_t height = getHeight();
 	const std::uint32_t width = getWidth();
 	std::string matString;
@@ -78,7 +78,7 @@ std::string Matrix::toString() const {
 	return matString;
 }
 
-std::uint32_t Matrix::getHeight() const {
+std::uint32_t IMatrix::getHeight() const {
     std::uint32_t result;
     ErrorCode error = matrix_getHeight(this->matrix, &result);
     if (!error_isSuccess(error)) {
@@ -87,7 +87,7 @@ std::uint32_t Matrix::getHeight() const {
     return result;
 }
 
-std::uint32_t Matrix::getWidth() const {
+std::uint32_t IMatrix::getWidth() const {
     std::uint32_t result;
     ErrorCode error = matrix_getWidth(this->matrix, &result);
     if (!error_isSuccess(error)) {
@@ -96,7 +96,7 @@ std::uint32_t Matrix::getWidth() const {
     return result;
 }
 
-Matrix& Matrix::operator+=(const Matrix& other) {
+IMatrix& IMatrix::operator+=(const IMatrix& other) {
     PMatrix temp;
     ErrorCode errorCreatingTempMatrix = matrix_create(&temp, this->getHeight(), this->getWidth());
     if (!error_isSuccess(errorCreatingTempMatrix)) {
@@ -118,11 +118,11 @@ Matrix& Matrix::operator+=(const Matrix& other) {
     return *this;
 }
 
-Matrix& Matrix::operator-=(const Matrix& other) {
+IMatrix& IMatrix::operator-=(const IMatrix& other) {
     return *this += (-1.0 * other);
 }
 
-Matrix& Matrix::operator*=(const Matrix& other) {
+IMatrix& IMatrix::operator*=(const IMatrix& other) {
     PMatrix temp;
     ErrorCode errorCreatingTempMatrix = matrix_create(&temp, this->getHeight(), this->getWidth());
     if (!error_isSuccess(errorCreatingTempMatrix)) {
@@ -142,23 +142,23 @@ Matrix& Matrix::operator*=(const Matrix& other) {
     return *this;
 }
 
-Matrix Matrix::operator+(const Matrix& other) const {
-    Matrix res = *this;
+IMatrix IMatrix::operator+(const IMatrix& other) const {
+    IMatrix res = *this;
     res += other;
     return res;
 }
 
-Matrix Matrix::operator-(const Matrix& other) const {
+IMatrix IMatrix::operator-(const IMatrix& other) const {
     return *this + (-1.0 * other);
 }
 
-Matrix Matrix::operator*(const Matrix& other) const {
-    Matrix res = *this;
+IMatrix IMatrix::operator*(const IMatrix& other) const {
+    IMatrix res = *this;
     res *= other;
     return res;
 }
 
-double Matrix::operator()(std::uint32_t rowInd, std::uint32_t colInd) const {
+double IMatrix::operator()(std::uint32_t rowInd, std::uint32_t colInd) const {
     double result;
     ErrorCode errorAccessingMatrix = matrix_getValue(this->matrix, rowInd, colInd, &result);
     if (!error_isSuccess(errorAccessingMatrix)) {
@@ -167,15 +167,15 @@ double Matrix::operator()(std::uint32_t rowInd, std::uint32_t colInd) const {
     return result;
 }
 
-void Matrix::set(std::uint32_t rowInd, std::uint32_t colInd, double value) {
+void IMatrix::set(std::uint32_t rowInd, std::uint32_t colInd, double value) {
     ErrorCode errorSettingValue = matrix_setValue(this->matrix, rowInd, colInd, value);
     if (!error_isSuccess(errorSettingValue)) {
         throw MessageException(error_getErrorMessage(errorSettingValue));
     }
 }
 
-Matrix operator*(const double scalar, const Matrix& matrix) {
-    Matrix result = matrix;
+IMatrix operator*(const double scalar, const IMatrix& matrix) {
+    IMatrix result = matrix;
     ErrorCode errorMultiplying = matrix_multiplyWithScalar(result.matrix, scalar);
     if (!error_isSuccess(errorMultiplying)) {
         throw MessageException(error_getErrorMessage(errorMultiplying));
