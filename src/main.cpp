@@ -1,7 +1,10 @@
 #include <string>
+#include <stdio.h>
 #include <stdint.h>
 #include <iostream>
 #include <fstream>
+#include <vector>
+#include <iterator>
 
 #include "IMatrix.hpp"
 #include "CacheManager.hpp"
@@ -10,6 +13,7 @@
 #include "BMP.hpp"
 #include "file_reading.hpp"
 #include "MessageException.hpp"
+//#include "crc"
 
 void matrixArguments(CacheManager* cache, char* argv[]){
     //check if we have the action in the cache
@@ -31,9 +35,6 @@ void matrixArguments(CacheManager* cache, char* argv[]){
     }
 }
 
-
-//const std::string& key, const std::string& path, const std::string& content
-
 void imageArguments(CacheManager* cache, char* argv[]){
     //check if we have the action in the cache
     std:: string key = "image_" + std::string(argv[2]) + '_' + std::string(argv[3]);
@@ -54,13 +55,29 @@ void imageArguments(CacheManager* cache, char* argv[]){
     }
 }
 
-// void hashArguments(CacheManager* cache, char* argv[]){
-//     if(std::string(argv[2]).compare("crc32") == 0){
-//     //calculate hash
-//     } else {
-//         throw MessageException("the argunments are not a valid command");
-//     }
-// }
+void hashArguments(CacheManager* cache, char* argv[]){
+    if(std::string(argv[2]).compare("crc32") == 0){
+        //calculate hash
+        std::fstream in(std::string(argv[3]), std::ios::binary);
+        if(!in){
+            throw MessageException("could not open th egiven file");
+        }
+        std::vector<unsigned char> data((std::istream_iterator<unsigned char>(in)), 
+                                        (std::istream_iterator<unsigned char>()));
+        in.close();
+        uint32_t fileHash =  calculate_crc32c(0, data.data(), data.size());
+        if (std::string(argv[4]).compare("stdout")){
+            std::cout << std::to_string(fileHash) << std::endl;
+        } else {
+            std::string key = "hash_crc32_" + std::string(argv[3]) + '_' + std::string(argv[4]);
+            cache->insert(key, std::string(argv[4]), std::to_string(fileHash)); 
+        }
+    } else {
+        throw MessageException("the argunments are not a valid command");
+    }
+}
+
+uint32_t
 
 void cacheArguments(CacheManager* cache, char* argv[]){
     if(std::string(argv[2]).compare("clear") == 0){
