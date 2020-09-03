@@ -43,6 +43,7 @@ CMakeFiles/ex3.out.dir/main.cpp.o
  /home/ullmans/ex03/ex03/src/MessageException.hpp
  /home/ullmans/ex03/ex03/src/bmp_tester.hpp
  /home/ullmans/ex03/ex03/src/crc32.c
+ /home/ullmans/ex03/ex03/src/crc32.h
  /home/ullmans/ex03/ex03/src/file_reading.hpp
  /home/ullmans/ex03/ex03/src/main.cpp
  /home/ullmans/ex03/ex03/src/matrix_tester.hpp

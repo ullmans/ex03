@@ -17,7 +17,7 @@
 
 void matrixArguments(CacheManager* cache, char* argv[]){
     //check if we have the action in the cache
-    std::string key = "matrix_" + std::string(argv[2]) + '_' + std::string(argv[3]) + '_' + std::string(argv[4]);
+    std::string key = "matrix_" + std::string(argv[2]) + "_" + std::string(argv[3]) + "|" + std::string(argv[4]);
     //1 -> if we have it
     if(cache->search(key)){
         cache->insert(key, std::string(argv[5]), cache->get(key));
@@ -37,7 +37,7 @@ void matrixArguments(CacheManager* cache, char* argv[]){
 
 void imageArguments(CacheManager* cache, char* argv[]){
     //check if we have the action in the cache
-    std:: string key = "image_" + std::string(argv[2]) + '_' + std::string(argv[3]);
+    std:: string key = "image_" + std::string(argv[2]) + "|" + std::string(argv[3]);
     //1 -> if we have it
     if(cache->search(key)){
         cache->insert(key, std::string(argv[5]), cache->get(key));
@@ -60,7 +60,7 @@ void hashArguments(CacheManager* cache, char* argv[]){
         //calculate hash
         std::fstream in(std::string(argv[3]), std::ios::binary);
         if(!in){
-            throw MessageException("could not open th egiven file");
+            throw MessageException("could not open the given file");
         }
         std::vector<unsigned char> data((std::istream_iterator<unsigned char>(in)), 
                                         (std::istream_iterator<unsigned char>()));
@@ -69,7 +69,7 @@ void hashArguments(CacheManager* cache, char* argv[]){
         if (std::string(argv[4]).compare("stdout")){
             std::cout << std::to_string(fileHash) << std::endl;
         } else {
-            std::string key = "hash_crc32_" + std::string(argv[3]) + '_' + std::string(argv[4]);
+            std::string key = "hash_crc32_" + std::string(argv[3]); + "|" + std::string(argv[4]);
             cache->insert(key, std::string(argv[4]), std::to_string(fileHash)); 
         }
     } else {
@@ -83,13 +83,13 @@ void cacheArguments(CacheManager* cache, char* argv[]){
     } else if(std::string(argv[2]).compare("search") == 0){
         std::string key;
         if (std::string(argv[3]).compare("matrix") == 0) {
-            key = "matrix_" + std::string(argv[4]) + '_' + std::string(argv[5]) + '_' + std::string(argv[6]);
+            key = "matrix_" + std::string(argv[4]) + "_" + std::string(argv[5]) + "|" + std::string(argv[6]);
         }
         else if (std::string(argv[3]).compare("image") == 0) {
-            key = "image_" + std::string(argv[4]) + '_' + std::string(argv[5]);
+            key = "image_" + std::string(argv[4]) + "|" + std::string(argv[5]);
         }
-        else if (std::string(argv[3]).compare("crc32") == 0) {
-            key = "hash_crc32_" + std::string(argv[4]);
+        else if (std::string(argv[3]).compare("hash") == 0) {
+            key = "hash_crc32_" + std::string(argv[4]) + "|" + std::string(argv[5]);
         }
 
         if(cache->search(key)){

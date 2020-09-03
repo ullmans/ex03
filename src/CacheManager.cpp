@@ -6,6 +6,8 @@
 #include "MessageException.hpp"
 #include "CacheManager.hpp"
 
+#include <iostream>
+
 void CacheManager::removeLRUFileFromCache() {
 	//The lru key is the key in the back of lru_list.
 	std::string lruKey = lru_list.back();
@@ -45,10 +47,11 @@ void CacheManager::loadCacheList() {
 	//Holds the content of ./bin/cache_list.txt
 	std::string cache_list_content;
 	try {
-		cache_list_content = readFileContent("./bin/cache_list.txt");
+		cache_list_content = readFileContent("./bin/cache/cache_list.txt");
 	}
 	catch (MessageException& me) {
-		throw MessageException("Reading from cahce_list.txt failed because: " + std::string(me.what()));
+		//throw MessageException("Reading from cahce_list.txt failed because: " + std::string(me.what()));
+		return;
 	}
 
 	//Holds one of the keys that are read from cache_list_content
@@ -105,7 +108,8 @@ void CacheManager::saveCacheList() {
 
 	//Writing cache_list_content into ./bin/cache_list.txt
 	try {
-		writeFileContent("./bin/cache_list.txt", cache_list_content);
+		std::string text = readFileContent("./bin/cache/cache_list.txt");
+		writeFileContent("./bin/cache/cache_list.txt",cache_list_content);
 	}
 	catch (MessageException& me) {
 		throw MessageException("Saving cahce_list.txt failed because: " + std::string(me.what()));
@@ -147,6 +151,7 @@ std::string CacheManager::get(const std::string& key) {
 	}
 	std::string content;
 	try {
+		std::cout << "debug1 get cacheManager" << std::endl;
 		content = readFileContent(cache_map[key]);
 	}
 	catch (MessageException& me) {

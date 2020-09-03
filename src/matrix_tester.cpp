@@ -7,9 +7,9 @@
 #include "CacheManager.hpp"
 
 
-void insertResultIMatrixToCache(CacheManager* cache, const std::string& key, char* argv[], const IMatrix& result) {
+void insertResultIMatrixToCache(CacheManager* cache, const std::string& key, char* argv[], const IMatrix& result) {  
     std::string matrix1_string = result.toString();
-    if (std::string(argv[5]).compare("stdout")) {
+    if (!std::string(argv[5]).compare("stdout")) {
         std::cout << matrix1_string << std::endl;
     }
     else {

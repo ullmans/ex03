@@ -11,7 +11,7 @@ std::string readFileContent(const std::string& filePath) {
 
   // The file is in a bad state.
   if (!in) {
-      throw MessageException("Opening file failed");
+    throw MessageException("Opening file failed");
   }
 
   // If Read the file to an std::ostringstream.
@@ -20,11 +20,10 @@ std::string readFileContent(const std::string& filePath) {
 
   // If reading from the file failed
   if (!in) {
-      throw MessageException("Reading from file failed");
+    throw MessageException("Reading from file failed");
   }
 
   in.close();
-
   return os.str();
 }
 
