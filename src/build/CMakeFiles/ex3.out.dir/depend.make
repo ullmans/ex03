@@ -42,6 +42,7 @@ CMakeFiles/ex3.out.dir/main.cpp.o: ../Matrix.h
 CMakeFiles/ex3.out.dir/main.cpp.o: ../MessageException.hpp
 CMakeFiles/ex3.out.dir/main.cpp.o: ../bmp_tester.hpp
 CMakeFiles/ex3.out.dir/main.cpp.o: ../crc32.c
+CMakeFiles/ex3.out.dir/main.cpp.o: ../crc32.h
 CMakeFiles/ex3.out.dir/main.cpp.o: ../file_reading.hpp
 CMakeFiles/ex3.out.dir/main.cpp.o: ../main.cpp
 CMakeFiles/ex3.out.dir/main.cpp.o: ../matrix_tester.hpp

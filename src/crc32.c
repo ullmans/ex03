@@ -1,3 +1,6 @@
+#include "crc32.h"
+#include <stdint.h>
+
 /*-
  *  COPYRIGHT (C) 1986 Gary S. Brown.  You may use this program, or
  *  code or tables extracted from it, as desired without restriction.
@@ -202,7 +205,7 @@ static const uint32_t crc32Table[256] = {
 static uint32_t
 singletable_crc32c(uint32_t crc, const void *buf, size_t size)
 {
-	const uint8_t *p = buf;
+	const uint8_t *p = (uint8_t*)buf;
 
 
 	while (size--)
