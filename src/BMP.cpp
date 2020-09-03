@@ -6,6 +6,8 @@
 #include "MessageException.hpp"
 #include "BMP.hpp"
 
+//Added right now
+#include "Matrix.hpp"
 
 
 // returns the part of 'str' starting at 'start' and with length of 'length'.
@@ -192,7 +194,7 @@ std::string BMP::toString() {
         str.append(paddingString);
     }
 
-    uint32_t size = 2 + 4 + str.size();
+    uint32_t size = 2 + 4 + (uint32_t) str.size();
     std::string res;
     res.push_back('B');
     res.push_back('M');
@@ -241,7 +243,7 @@ uint32_t rgbToGrayscale(uint32_t rgb, bool isFourByte) {
     rgb >>= 8;
     r = rgb & 0xFF;
 
-    uint8_t value = round(0.2126*r + 0.7152*g + 0.0722*b);
+    uint8_t value = (uint8_t) round(0.2126*r + 0.7152*g + 0.0722*b);
     uint32_t res = value << 16 | value << 8 | value;
     if (isFourByte) {
         res <<= 8;

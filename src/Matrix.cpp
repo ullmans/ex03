@@ -1,6 +1,6 @@
 #include <cstdint>
 #include <algorithm>
-#include "Matrix.h"
+#include "CMatrix.h"
 #include "ErrorCode.h"
 #include "Matrix.hpp"
 #include "MessageException.hpp"
@@ -14,7 +14,7 @@ Matrix::Matrix(std::uint32_t height, std::uint32_t width) {
 }
 
 Matrix::Matrix(const Matrix& other) {
-    ErrorCode error = matrix_copy(&this->matrix, other.matrix);
+    ErrorCode error = matrix_copy(&(this->matrix), other.matrix);
     if (!error_isSuccess(error)) {
         throw MessageException(error_getErrorMessage(error));
     }
@@ -34,8 +34,8 @@ Matrix::~Matrix() {
 }
 
 Matrix::Matrix(const std::string& s) {
-	const std::uint32_t height = std::count(s.begin(), s.end(), '\n') + 1;
-    const std::uint32_t width = std::count(s.begin(), s.begin() + s.find_first_of('\n'), ',') + 1;
+	const std::uint32_t height = (uint32_t) std::count(s.begin(), s.end(), '\n') + 1;
+    const std::uint32_t width = (uint32_t) std::count(s.begin(), s.begin() + s.find_first_of('\n'), ',') + 1;
 	ErrorCode error = matrix_create(&matrix, height, width);
 	if (!error_isSuccess(error)) {
 		throw MessageException(error_getErrorMessage(error));

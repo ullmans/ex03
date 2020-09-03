@@ -3,7 +3,7 @@
 #include <cstdint>
 #include<string>
 
-#include "Matrix.h"
+#include "CMatrix.h"
 #include "ErrorCode.h"
 
 class Matrix {
