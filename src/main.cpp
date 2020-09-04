@@ -16,29 +16,20 @@
 #include "crc32.c"
 
 void matrixArguments(CacheManager* cache, char* argv[]){
-
-    std::cout << "debug1 matrixArguments" << std::endl;
-
     //check if we have the action in the cache
     std::string key = "matrix_" + std::string(argv[2]) + "_" + std::string(argv[3]) + "_" + std::string(argv[4]);
     //1 -> if we have it
     if(cache->search(key)){
-        std::cout << "debug2 matrixArguments" << std::endl;
-
         cache->insert(key, std::string(argv[5]), cache->get(key));
     //0 -> if we do not have it
     } else {
-        std::cout << "debug3 matrixArguments" << std::endl;
         if(std::string(argv[2]).compare("add") == 0){
             //add the matrices
             testing::matrix::add(cache, key, argv);
         } else if(std::string(argv[2]).compare("multiply") == 0){
-            std::cout << "debug4 matrixArguments" << std::endl;
             //multiply the matrices
             testing::matrix::multiply(cache, key, argv);
-            std::cout << "debug5 matrixArguments" << std::endl;
         } else {
-            std::cout << "debug6 matrixArguments" << std::endl;
             throw MessageException("the argunments are not a valid command");
         }
     }
@@ -68,7 +59,6 @@ void hashArguments(CacheManager* cache, char* argv[]){
     if(std::string(argv[2]).compare("crc32") == 0){
         //calculate hash
         std::ifstream in(std::string(argv[3]), std::ios::binary);
-                    std::cout << "debug0 main hashArguments" << std::endl;
 
         if(in.fail()){
             throw MessageException("could not open the given file");
@@ -78,27 +68,18 @@ void hashArguments(CacheManager* cache, char* argv[]){
         in.close();
         uint32_t fileHash =  calculate_crc32c(0, data.data(), data.size());
         if (std::string(argv[4]).compare("stdout") == 0){
-
-            std::cout << "debug1 main hashArguments" << std::endl;
-
             std::cout << std::to_string(fileHash) << std::endl;
         } else {
-
-            std::cout << "debug2 main hashArguments" << std::endl;
-
             std::string key = "hash_crc32_" + std::string(argv[3]);
             cache->insert(key, std::string(argv[4]), std::to_string(fileHash)); 
         }
     } else {
-                    std::cout << "debug3 main hashArguments" << std::endl;
-
         throw MessageException("the argunments are not a valid command");
     }
 }
 
 void cacheArguments(CacheManager* cache, char* argv[]){
     if(std::string(argv[2]).compare("clear") == 0){
-            std::cout << "debug1 main cacheArguments" << std::endl;
 
         cache->clear();
     } else if(std::string(argv[2]).compare("search") == 0){
@@ -137,8 +118,6 @@ int main(int argc, char* argv[]){
     
     //for hash
     } else if(std::string(argv[1]).compare("hash") == 0){
-                    std::cout << "debug1 main" << std::endl;
-
         hashArguments(&cache, argv);
 
     //for cache
@@ -149,7 +128,5 @@ int main(int argc, char* argv[]){
     } else {
         throw MessageException("the argunments are not a valid command");
     }
-
-    std::cout << "debug2 main" << std::endl;
     cache.saveCacheList();
 }

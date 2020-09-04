@@ -9,9 +9,6 @@
 #include <iostream>
 
 void CacheManager::removeLRUFileFromCache() {
-
-	std::cout << "debug1 CacheManager removeLRUFileFromCache" << std::endl;
-
 	//The lru key is the key in the back of lru_list.
 	std::string lruKey = lru_list.back();
 
@@ -19,19 +16,13 @@ void CacheManager::removeLRUFileFromCache() {
 
 	//Trying to delete the file associated with the key from the cache.
 	if (remove(lruPath.c_str()) != 0) {
-			std::cout << "debug2 CacheManager removeLRUFileFromCache" << std::endl;
-
 		throw MessageException("File deletion failed");
 	}
 	else {
-			std::cout << "debug3 CacheManager removeLRUFileFromCache" << std::endl;
-
 		lru_list.pop_back();
 		cache_map.erase(lruKey);
 		size--;
 	}
-		std::cout << "debug4 CacheManager removeLRUFileFromCache" << std::endl;
-
 }
 
 void CacheManager::moveToFrontOfLRUList(const std::string& key) {
@@ -124,36 +115,25 @@ void CacheManager::saveCacheList() {
 }
 
 void CacheManager::insert(const std::string& key, const std::string& filename, const std::string& content) {
-	std::cout << "debug1 cache insert: " + key << std::endl;
-
 	if (std::count(filename.begin(), filename.end(), '\n') != 0 || std::count(filename.begin(), filename.end(), '|') != 0) {
-			std::cout << "debug2 cache insert" << std::endl;
-
 		throw MessageException("Characters '\\n' and '|' are not allowed in the keys");
 	}
 
 	//The content is written into the file
 	try {
 		writeFileContent("./bin/cache/" + filename, content);
-			std::cout << "debug3 cache insert" << std::endl;
 
 	}
 	catch (MessageException& me) {
-			std::cout << "debug4 cache insert" << std::endl;
-
 		throw MessageException("Writing the inserted file failed because: " + std::string(me.what()));
 	}
 
 	//If the key already exists in the cache, it'll be moved to the front of lru_List. Else, it'll be
 	//pushed to front of the lru_list, and if the cache is already full, and lru file will be deleted.
 	if (search(key)) {
-			std::cout << "debug5 cache insert" << std::endl;
-
 		moveToFrontOfLRUList(key);
 	}
 	else {
-			std::cout << "debug6 cache insert" << std::endl;
-
 		lru_list.push_front(key);
 		if (size == capacity) {
 			removeLRUFileFromCache();
@@ -162,8 +142,6 @@ void CacheManager::insert(const std::string& key, const std::string& filename, c
 	}
 
 	cache_map[key] = filename;
-		std::cout << "debug7 cache insert" << std::endl;
-
 }
 
 std::string CacheManager::get(const std::string& key) {
@@ -172,7 +150,6 @@ std::string CacheManager::get(const std::string& key) {
 	}
 	std::string content;
 	try {
-		std::cout << "debug1 get cacheManager" << std::endl;
 		content = readFileContent("./bin/cache/" + cache_map[key]);
 	}
 	catch (MessageException& me) {
@@ -187,7 +164,6 @@ bool CacheManager::search(const std::string& key) const {
 }
 
 void CacheManager::clear() {
-	std::cout << "debug1 CacheManager clear" << std::endl;
 	while (size > 0) {
 		removeLRUFileFromCache();
 	}
