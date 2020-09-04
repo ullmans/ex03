@@ -12,7 +12,7 @@ void insertResultIMatrixToCache(CacheManager* cache, const std::string& key, cha
 
     std::cout << matrix1_string << std::endl; 
 
-    if (!std::string(argv[5]).compare("stdout")) {
+    if (!std::string(argv[5]).compare("stdout") == 0) {
         std::cout << matrix1_string << std::endl;
     }
     else {
