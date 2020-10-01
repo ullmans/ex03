@@ -16,8 +16,15 @@
 #include "crc32.c"
 
 void matrixArguments(CacheManager* cache, char* argv[]){
+
     //check if we have the action in the cache
-    std::string key = "matrix_" + std::string(argv[2]) + "_" + std::string(argv[3]) + "_" + std::string(argv[4]);
+    std::string key;
+    //initialize the key according to the a"b of the strings so A+B will be the same as B+A and A*B will be the same as B*A
+    if(std::string(argv[2]) <= std::string(argv[3])){
+        key = "matrix_" + std::string(argv[2]) + "_" + std::string(argv[3]) + "_" + std::string(argv[4]);
+    } else if(std::string(argv[3]) < std::string(argv[2])){
+        key = "matrix_" + std::string(argv[3]) + "_" + std::string(argv[2]) + "_" + std::string(argv[4]);
+    }
     //1 -> if we have it
     if(cache->search(key)){
         cache->insert(key, std::string(argv[5]), cache->get(key));
@@ -56,6 +63,7 @@ void imageArguments(CacheManager* cache, char* argv[]){
 }
 
 void hashArguments(CacheManager* cache, char* argv[]){
+
     if(std::string(argv[2]).compare("crc32") == 0){
         //calculate hash
         std::ifstream in(std::string(argv[3]), std::ios::binary);
@@ -79,8 +87,8 @@ void hashArguments(CacheManager* cache, char* argv[]){
 }
 
 void cacheArguments(CacheManager* cache, char* argv[]){
+    
     if(std::string(argv[2]).compare("clear") == 0){
-
         cache->clear();
     } else if(std::string(argv[2]).compare("search") == 0){
         std::string key;
@@ -105,7 +113,10 @@ void cacheArguments(CacheManager* cache, char* argv[]){
 int main(int argc, char* argv[]){
     argc += 1;
 
-    CacheManager cache = CacheManager(100);   //what is the size?
+    const int cacheSize = 100;
+    CacheManager cache = CacheManager(cacheSize);
+
+    //add the files to the cache' if there are no files the function will not do enything
     cache.loadCacheList();
 
     //for matrix

@@ -34,8 +34,9 @@ IMatrix::~IMatrix() {
 }
 
 IMatrix::IMatrix(const std::string& s) {
-	const std::uint32_t height = (uint32_t) std::count(s.begin(), s.end(), '\n') + 1;
-    const std::uint32_t width = (uint32_t) std::count(s.begin(), s.begin() + s.find_first_of('\n'), ',') + 1;
+    
+	const std::uint32_t height = static_cast<uint32_t>(std::count(s.begin(), s.end(), '\n') + 1);
+    const std::uint32_t width = static_cast<uint32_t>(std::count(s.begin(), s.begin() + s.find_first_of('\n'), ',') + 1);
 	ErrorCode error = matrix_create(&matrix, height, width);
 	if (!error_isSuccess(error)) {
 		throw MessageException(error_getErrorMessage(error));
