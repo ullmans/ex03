@@ -10,17 +10,17 @@
 
 void CacheManager::removeLRUFileFromCache() {
 	//The lru key is the key in the back of lru_list.
-	std::string lruKey = lru_list.back();
+	std::string lruKey = m_lru_list.back();
 
-	std::string lruPath = "./bin/cache/" + cache_map[lruKey];
+	std::string lruPath = "./bin/cache/" + m_cache_map[lruKey];
 
 	//Trying to delete the file associated with the key from the cache.
 	if (remove(lruPath.c_str()) != 0) {
 		throw MessageException("File deletion failed");
 	}
 	else {
-		lru_list.pop_back();
-		cache_map.erase(lruKey);
+		m_lru_list.pop_back();
+		m_cache_map.erase(lruKey);
 		size--;
 	}
 }
@@ -28,19 +28,19 @@ void CacheManager::removeLRUFileFromCache() {
 void CacheManager::moveToFrontOfLRUList(const std::string& key) {
 	//Iterating through lru_list in order to find the key,
 	//and if it's there it'll be moved to the front of the lru_list.
-	for (auto it = lru_list.begin(); it != lru_list.end(); ++it) {
-		if (*it == key) {
-			lru_list.erase(it);
-			lru_list.push_front(key);
+	for(auto& c: m_lru_list){
+		if (c == key) {
+			m_lru_list.remove(c);
+			m_lru_list.push_front(key);
 			return;
 		}
 	}
 }
 
-CacheManager::CacheManager(const int capa) : capacity(capa) { }
+CacheManager::CacheManager(const int capacity) : m_capacity(capacity) { }
 
-std::uint32_t CacheManager::getCapacity() {
-	return capacity;
+std::uint32_t CacheManager::getCapacity() const{
+	return m_capacity;
 }
 
 void CacheManager::loadCacheList() {
@@ -49,6 +49,7 @@ void CacheManager::loadCacheList() {
 	try {
 		cache_list_content = readFileContent("./bin/cache/cache_list.txt");
 	}
+	//if there are no files (a new catch) so return (there are no nedd for a failure).
 	catch (MessageException& me) {
 		return;
 	}
@@ -76,12 +77,12 @@ void CacheManager::loadCacheList() {
 		else if (*it == '\n') {
 			//lru_list needs to have the same order as cache_list_content, and cache_list_content starts
 			//with the most recently used file, so each time we read a file it is put in the back of lru_list
-			lru_list.push_back(keyTemp);
+			m_lru_list.push_back(keyTemp);
 
-			cache_map[keyTemp] = pathTemp;
+			m_cache_map[keyTemp] = pathTemp;
 			keyTemp.clear();
 			pathTemp.clear();
-			size++;
+			++size;
 
 			//Next line starts with a key
 			isReadingKey = true;
@@ -100,9 +101,9 @@ void CacheManager::saveCacheList() {
 	std::string cache_list_content;
 
 	//Each key in lru_list is put in cache_list_content in order.
-	for (const std::string& s : lru_list) {
+	for (const std::string& s : m_lru_list) {
 		//Each line in cache_list_content looks like "<key>|<filename>"
-		cache_list_content += s + "|" + cache_map[s] + "\n";
+		cache_list_content += s + "|" + m_cache_map[s] + "\n";
 	}
 
 	//Writing cache_list_content into ./bin/cache_list.txt
@@ -134,14 +135,14 @@ void CacheManager::insert(const std::string& key, const std::string& filename, c
 		moveToFrontOfLRUList(key);
 	}
 	else {
-		lru_list.push_front(key);
-		if (size == capacity) {
+		m_lru_list.push_front(key);
+		if (size == m_capacity) {
 			removeLRUFileFromCache();
 		}
 		size++;
 	}
 
-	cache_map[key] = filename;
+	m_cache_map[key] = filename;
 }
 
 std::string CacheManager::get(const std::string& key) {
@@ -150,7 +151,7 @@ std::string CacheManager::get(const std::string& key) {
 	}
 	std::string content;
 	try {
-		content = readFileContent("./bin/cache/" + cache_map[key]);
+		content = readFileContent("./bin/cache/" + m_cache_map[key]);
 	}
 	catch (MessageException& me) {
 		throw MessageException("Reading from the file associated with the key failed because: " + std::string(me.what()));
@@ -160,7 +161,7 @@ std::string CacheManager::get(const std::string& key) {
 }
 
 bool CacheManager::search(const std::string& key) const {
-	return cache_map.find(key) != cache_map.end();
+	return m_cache_map.find(key) != m_cache_map.end();
 }
 
 void CacheManager::clear() {

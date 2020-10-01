@@ -10,8 +10,6 @@
 void insertResultIMatrixToCache(CacheManager* cache, const std::string& key, char* argv[], const IMatrix& result) {
     std::string matrix1_string = result.toString();
 
-    std::cout << matrix1_string << std::endl; 
-
     if (!std::string(argv[5]).compare("stdout") == 0) {
         std::cout << matrix1_string << std::endl;
     }

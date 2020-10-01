@@ -9,14 +9,14 @@
 class CacheManager {
 private:
 	//A map that contains all the keys and paths to the file in the cache.
-	std::unordered_map<std::string, std::string> cache_map;
+	std::unordered_map<std::string, std::string> m_cache_map;
 
 	//A list that orders the keys by how recently used they are. The most recently
 	//used key is in the front while the least recently used is in the back.
-	std::list <std::string> lru_list;
+	std::list <std::string> m_lru_list;
 
 	//The biggest size the cache can be.
-	std::uint32_t capacity;
+	std::uint32_t m_capacity;
 
 	//The current ammount of files in the cache.
 	std::uint32_t size = 0;
@@ -40,14 +40,14 @@ public:
 	 *
 	 * @param key The capacity of the cache. The cache can't hold more files than the capacity.
 	 */
-	CacheManager(const int capa);
+	explicit CacheManager(const int capacity);
 
 	/*
 	 * @brief Gets the capacity of the cache.
 	 *
 	 * @return The capacity of the cache.
 	 */
-	std::uint32_t getCapacity();
+	std::uint32_t getCapacity() const;
 
 	/*
 	 * @brief Reads from ./bin/cache_list.txt in order to get the keys from the previous
