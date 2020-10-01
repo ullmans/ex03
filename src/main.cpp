@@ -15,15 +15,15 @@
 #include "MessageException.hpp"
 #include "crc32.c"
 
-void matrixArguments(CacheManager* cache, char* argv[], const int argc){
+void matrixArguments(CacheManager* cache, char* argv[]){
 
     //check if we have the action in the cache
     std::string key;
     //initialize the key according to the a"b of the strings so A+B will be the same as B+A and A*B will be the same as B*A
     if(std::string(argv[2]) <= std::string(argv[3])){
-        std::string key = "matrix_" + std::string(argv[2]) + "_" + std::string(argv[3]) + "_" + std::string(argv[4]);
+        key = "matrix_" + std::string(argv[2]) + "_" + std::string(argv[3]) + "_" + std::string(argv[4]);
     } else if(std::string(argv[3]) < std::string(argv[2])){
-        std::string key = "matrix_" + std::string(argv[3]) + "_" + std::string(argv[2]) + "_" + std::string(argv[4]);
+        key = "matrix_" + std::string(argv[3]) + "_" + std::string(argv[2]) + "_" + std::string(argv[4]);
     }
     //1 -> if we have it
     if(cache->search(key)){
@@ -42,7 +42,7 @@ void matrixArguments(CacheManager* cache, char* argv[], const int argc){
     }
 }
 
-void imageArguments(CacheManager* cache, char* argv[], const int argc){
+void imageArguments(CacheManager* cache, char* argv[]){
     //check if we have the action in the cache
     std:: string key = "image_" + std::string(argv[2]) + "_" + std::string(argv[3]);
     //1 -> if we have it
@@ -62,7 +62,7 @@ void imageArguments(CacheManager* cache, char* argv[], const int argc){
     }
 }
 
-void hashArguments(CacheManager* cache, char* argv[], const int argc){
+void hashArguments(CacheManager* cache, char* argv[]){
 
     if(std::string(argv[2]).compare("crc32") == 0){
         //calculate hash
@@ -86,14 +86,9 @@ void hashArguments(CacheManager* cache, char* argv[], const int argc){
     }
 }
 
-void cacheArguments(CacheManager* cache, char* argv[], const int argc){
-    //check that there i argv[2] in argv
-    if(argc < 3){
-        throw MessageException("the argunments are not a valid command");
-    }
+void cacheArguments(CacheManager* cache, char* argv[]){
     
     if(std::string(argv[2]).compare("clear") == 0){
-
         cache->clear();
     } else if(std::string(argv[2]).compare("search") == 0){
         std::string key;
@@ -116,6 +111,7 @@ void cacheArguments(CacheManager* cache, char* argv[], const int argc){
 }
 
 int main(int argc, char* argv[]){
+    argc += 1;
 
     const int cacheSize = 100;
     CacheManager cache = CacheManager(cacheSize);
@@ -125,19 +121,19 @@ int main(int argc, char* argv[]){
 
     //for matrix
     if(std::string(argv[1]).compare("matrix") == 0){
-        matrixArguments(&cache, argv, argc);
+        matrixArguments(&cache, argv);
 
     //for image (BMP)
     } else if(std::string(argv[1]).compare("image") == 0){
-        imageArguments(&cache, argv, argc);
+        imageArguments(&cache, argv);
     
     //for hash
     } else if(std::string(argv[1]).compare("hash") == 0){
-        hashArguments(&cache, argv, argc);
+        hashArguments(&cache, argv);
 
     //for cache
     } else if(std::string(argv[1]).compare("cache") == 0){
-        cacheArguments(&cache, argv, argc);
+        cacheArguments(&cache, argv);
 
     //not a valid command
     } else {
